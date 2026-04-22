@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martin Alejandro Bensi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a08;
+    --surface: #111110;
+    --border: #1e1e1a;
+    --text: #e8e4dc;
+    --muted: #6b6760;
+    --accent: #c9a84c;
+    --accent-dim: #8a6f2e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Header */
+  header {
+    padding: 5rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .tagline {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-header {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  .contact-header a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-header a:hover { color: var(--text); }
+
+  /* Nav */
+  nav {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .nav-inner {
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* Sections */
+  section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* About */
+  .about-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+    font-weight: 300;
+    line-height: 1.75;
+    color: #d4cfc6;
+    max-width: 680px;
+  }
+
+  .about-text strong {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 3rem;
+  }
+
+  .stat {
+    background: var(--bg);
+    padding: 1.5rem;
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* Experience */
+  .experience-list { display: flex; flex-direction: column; gap: 0; }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-item:hover { background: rgba(201, 168, 76, 0.02); }
+
+  .exp-period {
+    font-size: 11px;
+    color: var(--muted);
+    padding-top: 0.15rem;
+    line-height: 1.5;
+  }
+
+  .exp-content {}
+
+  .exp-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .exp-company {
+    font-size: 11px;
+    color: var(--accent-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .exp-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .skill-group-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .tag:hover {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 4rem 0;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .cta-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    max-width: 480px;
+  }
+
+  .cta-text strong {
+    color: var(--text);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .cta-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-end;
+  }
+
+  .cta-link {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.2s;
+  }
+
+  .cta-link:hover { gap: 1rem; }
+
+  .cta-link::after { content: '→'; }
+
+  /* Footer */
+  footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  section:nth-child(2) { animation-delay: 0.15s; }
+  section:nth-child(3) { animation-delay: 0.25s; }
+  section:nth-child(4) { animation-delay: 0.35s; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header-inner { grid-template-columns: 1fr; }
+    .contact-header { text-align: left; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .cta-inner { grid-template-columns: 1fr; }
+    .cta-links { align-items: flex-start; }
+    .stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1 class="name">Martin<br><em>Bensi</em></h1>
+        <p class="tagline">Strategic thinking — Buenos Aires, Argentina — Open to remote & relocation</p>
+      </div>
+      <div class="contact-header">
+        <a href="mailto:martinbensi91@gmail.com">martinbensi91@gmail.com</a><br>
+        <a href="tel:+541169363432">+54 11 6936 3432</a><br>
+        English — Advanced<br>
+        Spanish — Native
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section id="about">
+    <div class="section-label">Profile</div>
+    <p class="about-text">
+      I'm not a specialist. I'm the person who understands what the specialist is saying, 
+      <strong>why the client doesn't trust it yet</strong>, and what needs to change so the whole thing actually works.
+      <br><br>
+      My career looks nonlinear because it is. Sales leadership, legal consulting, CRM systems, 
+      network infrastructure, scripting, AI development — different industries, same pattern: 
+      I come in, I learn fast, I find what's broken, and I fix it.
+      <br><br>
+      Most problems aren't technical or commercial. <strong>They're human.</strong> 
+      Someone isn't communicating something. Someone doesn't trust someone. 
+      I tend to see that early, which makes the rest easier.
+      <br><br>
+      I'm an 8 or 9 across many areas rather than a 10 in one — and in practice, 
+      that's often more useful when the problem doesn't fit a single box.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">6+</div>
+        <div class="stat-label">Industries</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Languages</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-label">Experience</div>
+    <div class="experience-list">
+
+      <div class="exp-item">
+        <div class="exp-period">2024 — 2026</div>
+        <div class="exp-content">
+          <div class="exp-role">Team Leader — Sales & Operations</div>
+          <div class="exp-company">Cetrohogar</div>
+          <div class="exp-desc">Led the sales team while managing commercial operations through CRM. Combined day-to-day team guidance with strategic analysis of demand patterns and inventory decisions.</div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">2021 — 2024</div>
+        <div class="exp-content">
+          <div class="exp-role">Sales Lead & CRM Administrator</div>
+          <div class="exp-company">Cetrohogar</div>
+          <div class="exp-desc">Managed a team of sales representatives, coaching performance and maintaining commercial targets while building a positive team environment.</div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">2018 — 2021</div>
+        <div class="exp-content">
+          <div class="exp-role">Legal & Administrative Advisor</div>
+          <div class="exp-company">Estudio Jurídico DOCAM</div>
+          <div class="exp-desc">Labor and civil legal consulting. Full administrative follow-up of client cases across all regulatory procedures. Client acquisition and intake management.</div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">2015 — 2017</div>
+        <div class="exp-content">
+          <div class="exp-role">Sales Supervisor</div>
+          <div class="exp-company">Fiat Autogeneralli</div>
+          <div class="exp-desc">Supervised sales team for savings plans. Direct client management combined with team coordination and performance oversight.</div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">2011 — 2012</div>
+        <div class="exp-content">
+          <div class="exp-role">B2B Sales — US Accounts</div>
+          <div class="exp-company">VideoJet</div>
+          <div class="exp-desc">Sales and account management for American companies. Industrial machinery and production supplies. Full English communication environment.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-title">Technical</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">PHP</span>
+          <span class="tag">SQL</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Laravel</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">CRM Systems</span>
+          <span class="tag">LLM Development</span>
+          <span class="tag">Network Infrastructure</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Strategic</div>
+        <div class="skill-tags">
+          <span class="tag">Systems Thinking</span>
+          <span class="tag">Behavioral Analysis</span>
+          <span class="tag">Team Leadership</span>
+          <span class="tag">Product Strategy</span>
+          <span class="tag">Cross-industry Analysis</span>
+          <span class="tag">Rapid Learning</span>
+          <span class="tag">Conflict Resolution</span>
+          <span class="tag">Geopolitical Context</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section" id="contact">
+    <div class="section-label">Contact</div>
+    <div class="cta-inner">
+      <p class="cta-text">
+        If what you need is someone who fits a standard profile, there are better candidates. 
+        If the role requires <strong>figuring things out across disciplines</strong> — let's talk.
+      </p>
+      <div class="cta-links">
+        <a href="mailto:martinbensi91@gmail.com" class="cta-link">Send an email</a>
+        <a href="tel:+541169363432" class="cta-link">Call or WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Martin Alejandro Bensi — Buenos Aires, Argentina</span>
+      <span>Available to relocate</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
